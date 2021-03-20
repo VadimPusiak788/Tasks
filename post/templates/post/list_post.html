@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'post/style.css' %}">
+    <title>Title</title>
+</head>
+<body>
+<div class="left_conteiner">
+    {% if user.is_authenticated %}
+    <p>Welcome, {{ user.get_username }}</p>
+        <div>
+        <a href="{% url 'post:create_post' %}"> Create Post</a>
+    </div>
+        <div>
+        <a href="{% url 'account:logout' %}"> Logout</a>
+        </div>
+{% else %}
+    <p>Welcome, new user. Please log in.</p>
+        <div>
+        <a href="{% url 'account:login' %}"> Login</a>
+        </div>
+{% endif %}
+
+</div>
+<div>
+    {% for post in post_list %}
+        <div class="post_container">
+            <div class="post">{{ post.title }}</div>
+        <img src="{{ post.photo.url }}" width="300" height="300" alt="Photo">
+            <div class="post">{{ post.description }}</div>
+               <div class="post"><a href="{{ post.get_absolute_url }}"> Create Comment</a></div>
+            <div class="post"><a href="update_post/{{ post.id }}"> Update Postt</a></div>
+
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>
